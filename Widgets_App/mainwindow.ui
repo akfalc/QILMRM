@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>336</width>
+    <width>511</width>
     <height>627</height>
    </rect>
   </property>
@@ -14,18 +14,31 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>440</y>
-      <width>161</width>
-      <height>28</height>
+      <x>7</x>
+      <y>9</y>
+      <width>351</width>
+      <height>531</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Click Me</string>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QSlider" name="verticalSlider">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="progressBar">
+       <property name="value">
+        <number>24</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -33,7 +46,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>336</width>
+     <width>511</width>
      <height>26</height>
     </rect>
    </property>
@@ -50,22 +63,5 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>179</x>
-     <y>486</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>250</x>
-     <y>302</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

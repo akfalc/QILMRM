@@ -16,9 +16,11 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPushButton>
+#include <QtWidgets/QProgressBar>
+#include <QtWidgets/QSlider>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -27,7 +29,10 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QPushButton *pushButton;
+    QWidget *widget;
+    QVBoxLayout *verticalLayout;
+    QSlider *verticalSlider;
+    QProgressBar *progressBar;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -36,16 +41,33 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(336, 627);
+        MainWindow->resize(511, 627);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(90, 440, 161, 28));
+        widget = new QWidget(centralWidget);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(7, 9, 351, 531));
+        verticalLayout = new QVBoxLayout(widget);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        verticalSlider = new QSlider(widget);
+        verticalSlider->setObjectName(QStringLiteral("verticalSlider"));
+        verticalSlider->setOrientation(Qt::Vertical);
+
+        verticalLayout->addWidget(verticalSlider);
+
+        progressBar = new QProgressBar(widget);
+        progressBar->setObjectName(QStringLiteral("progressBar"));
+        progressBar->setValue(24);
+
+        verticalLayout->addWidget(progressBar);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 336, 26));
+        menuBar->setGeometry(QRect(0, 0, 511, 26));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -55,7 +77,6 @@ public:
         MainWindow->setStatusBar(statusBar);
 
         retranslateUi(MainWindow);
-        QObject::connect(pushButton, SIGNAL(clicked()), MainWindow, SLOT(close()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -63,7 +84,6 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("MainWindow", "Click Me", Q_NULLPTR));
     } // retranslateUi
 
 };
