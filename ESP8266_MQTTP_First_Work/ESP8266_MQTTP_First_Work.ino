@@ -3,10 +3,9 @@
 
 // Update these with values suitable for your network.
 
-const char* ssid = "SmartHome";
-const char* password = "virslibabszalon";
+const char* ssid = "Semih";
+const char* password = "128199sb";
 const char* mqtt_server = "iot.eclipse.org";
-
 WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
@@ -17,6 +16,7 @@ int value = 0;
 void setup_wifi() {
 
   delay(10);
+  pinMode(D6,OUTPUT);
   // We start by connecting to a WiFi network
   Serial.println();
   Serial.print("Connecting to ");
@@ -51,6 +51,13 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
    if (msgString.equals("Turn Right")){
       Serial.println("status requested");
+      digitalWrite(D6, 1023);
+      
+   }
+      if (msgString.equals("Turn Left")){
+      Serial.println("status requested");
+      digitalWrite(D6, 0);
+      
    }
   
    
