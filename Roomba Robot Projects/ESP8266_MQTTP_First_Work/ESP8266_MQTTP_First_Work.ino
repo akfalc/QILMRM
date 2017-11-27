@@ -107,10 +107,34 @@ driveStop();
       
    Roomba.write(128);
    Roomba.write(132);  //Full mode
-   drive(-50,-50);
+   driveWheels(-150,-150);
   
 delay(1000);
 driveStop();
+      
+   }
+   if (msgString.equals("Trajectory")){
+      Serial.println("Trajectory message is requested");
+      
+      
+   Roomba.write(128);
+   Roomba.write(132);  //Full mode
+   Roomba.write(164); Roomba.write(84); Roomba.write(82); Roomba.write(74); Roomba.write(67);
+   driveWheels(150,150);
+  
+delay(3000);
+turnCCW (30, 90);
+driveWheels(150,150);
+delay(3000);
+turnCW (30, 90);
+  
+delay(1000);
+driveWheels(150,150);
+  
+delay(3000);
+
+driveStop();
+
       
    }
       if (msgString.equals("Stop")){
@@ -347,10 +371,10 @@ void loop() {
   
 
   long now = millis();
-  if (now - lastMsg > 20000) {
+  if (now - lastMsg > 2000000) {
     lastMsg = now;
     ++value;
-    snprintf (msg, 75, "hello amcik #%ld", value);
+    snprintf (msg, 75, "Communication is on and working #%ld", value);
     Serial.print("Publish message: ");
     Serial.println(msg);
     client.publish("mqtt.spy/1", msg);

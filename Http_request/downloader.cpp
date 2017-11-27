@@ -12,7 +12,7 @@ void Downloader::doDownload()
     connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(replyFinished(QNetworkReply*)));
 
-    manager->get(QNetworkRequest(QUrl("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=%0")));
+    manager->get(QNetworkRequest(QUrl("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=3F5NE805II9REK18")));
 }
 
 void Downloader::replyFinished (QNetworkReply *reply)
@@ -30,7 +30,7 @@ void Downloader::replyFinished (QNetworkReply *reply)
         qDebug() << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         qDebug() << reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
 
-        QFile *file = new QFile("C:/Qt/Dummy/downloaded.txt");
+        QFile *file = new QFile("D:/2017-2018 new semester/downloaded.txt");
         if(file->open(QFile::Append))
         {
             file->write(reply->readAll());
