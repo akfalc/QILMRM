@@ -5,14 +5,16 @@ Downloader::Downloader(QObject *parent) :
 {
 }
 
-void Downloader::doDownload(const qint8 &CurrencyId)
+void Downloader::doDownload()
 {
     manager = new QNetworkAccessManager(this);
 
     connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(replyFinished(QNetworkReply*)));
 
-    manager->get(QNetworkRequest(QUrl("https://www.alphavantage.co/query?ffunction=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=USD&apikey=3F5NE805II9REK18")));
+
+   manager->get(QNetworkRequest(QUrl("https://www.alphavantage.co/query?ffunction=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=USD&apikey=3F5NE805II9REK18")));
+manager-
 }
 
 void Downloader::replyFinished (QNetworkReply *reply)
