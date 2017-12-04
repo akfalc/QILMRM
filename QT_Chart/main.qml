@@ -59,31 +59,31 @@ ApplicationWindow {
         MainPage {
 
 
-            }
+        }
         FirstPage {
 
 
 
-            }
-            SecondPage {
+        }
+        SecondPage {
 
 
-            }
-            ThirdPage {
+        }
+        ThirdPage {
 
 
-            }
-            Comparasion_Page{
-            }
-
-
-
+        }
+        Comparasion_Page{
+        }
 
 
 
 
 
-                    }
+
+
+
+    }
 
 
     PageIndicator {

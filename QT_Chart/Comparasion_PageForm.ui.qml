@@ -10,7 +10,7 @@ Item {
     Connections {
         target: downloadManager
         onPresentData: {
-            y = y/1000
+            y = y / 100
             series.append(x, y)
             if (x > xAxis.max) {
                 xAxis.max = x
@@ -58,7 +58,7 @@ Item {
             Text {
                 id: text1
                 color: "#20b1e9"
-                text: qsTr("Bitcoin - US Dollar")
+                text: qsTr("Comparison Between Digital Currencies")
                 style: Text.Raised
                 font.weight: Font.Medium
                 font.capitalization: Font.AllUppercase
@@ -68,60 +68,60 @@ Item {
                 font.pointSize: 15
             }
         }
-
         RowLayout {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10
             anchors.horizontalCenter: parent.horizontalCenter
             Button {
                 id: button1
-                x: 279
-                y: 397
-                text: qsTr("Update")
+                text: qsTr("update")
+                Layout.fillHeight: false
+                Layout.fillWidth: false
             }
         }
-    }
-    Item {
-        id: item2
-        x: 0
-        y: 58
-        width: parent.width
-        anchors.top: parent.top
-        anchors.topMargin: 40
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 40
-        ChartView {
-            id: chartView
-            anchors.bottomMargin: 0
-            title: "Comparison Between Daily Digital Currencies"
-            anchors.fill: parent
-            ValueAxis {
-                id: yAxis
-                titleText: "USD"
-                titleVisible: true
-                gridVisible: true
-                tickCount: 11
-                min: 0
-                max: 10
-            }
-            DateTimeAxis {
-                id: xAxis
-                tickCount: 20
-                visible: true
-                labelsAngle: 90
-                gridVisible: true
-                format: "yyyy-MM-dd"
-                min: "2017-10-10"
-                max: "2017-11-01"
-            }
+}
+
+        Item {
+            id: item2
+            x: 0
+            y: 58
+            width: parent.width
+            anchors.top: parent.top
+            anchors.topMargin: 40
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 40
+            ChartView {
+                id: chartView
+                title: "Digital Currency Comparison"
+                anchors.fill: parent
+                ValueAxis {
+                    id: yAxis
+                    titleText: "US Dollars"
+                    titleVisible: true
+                    gridVisible: true
+                    tickCount: 11
+                    min: 0
+                    max: 2
+                }
+                DateTimeAxis {
+                    id: xAxis
+                    tickCount: 20
+                    visible: true
+                    labelsAngle: 90
+                    gridVisible: true
+                    format: "yyyy-MM-dd"
+                    min: "2017-10-10"
+                    max: "2017-12-01"
+                }
 
             LineSeries {
                 id: series
                 color: "red"
                 axisX: xAxis
                 axisY: yAxis
-                name: "first time series(BTC)-(/1000)"
                 visible: true
+                name: "first time series(BTC)-(/1000)"
+
             }
             LineSeries {
                 id: series2
@@ -144,5 +144,3 @@ Item {
 
         }
     }
-
-
