@@ -2,11 +2,25 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtCharts 2.2
-import DataChart 1.0
+
 Item {
     id: item1
     property alias button1: button1
     property alias chartView: chartView
+
+    Connections {
+        target: downloadManager3
+        onPresentData3: {
+            y = y / 1
+            series3.append(x, y)
+            if (x > xAxis.max) {
+                xAxis.max = x
+            }
+            if (y > yAxis.max) {
+                yAxis.max = y
+            }
+        }
+    }
 
     ColumnLayout {
         id: columnLayout
@@ -38,7 +52,9 @@ Item {
                 id: button1
                 text: qsTr("update")
                 Layout.fillHeight: false
-                Layout.fillWidth: false
+               Layout.fillWidth: false
+
+
             }
         }
     }
@@ -55,10 +71,31 @@ Item {
             id: chartView
             title: "GameString"
             anchors.fill: parent
-            LineSeries {
-                id: series
-                name: " second time series"
+            ValueAxis {
+                id: yAxis
+                titleText: "US Dollars"
+                titleVisible: true
+                gridVisible: true
+                tickCount: 11
+                min: 0
+                max: 2
+            }
+            DateTimeAxis {
+                id: xAxis
+                tickCount: 20
                 visible: true
+                labelsAngle: 90
+                gridVisible: true
+                format: "yyyy-MM-dd"
+                min: "2017-10-10"
+                max: "2017-12-01"
+            }
+            LineSeries {
+                id: series3
+                name: "third time series"
+                visible: true
+                axisX: xAxis
+                axisY: yAxis
             }
         }
     }

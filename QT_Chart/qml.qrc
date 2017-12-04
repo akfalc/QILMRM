@@ -10,5 +10,7 @@
         <file>ThirdPageForm.ui.qml</file>
         <file>MainPage.qml</file>
         <file>MainPageForm.ui.qml</file>
+        <file>Comparasion_Page.qml</file>
+        <file>Comparasion_PageForm.ui.qml</file>
     </qresource>
 </RCC>

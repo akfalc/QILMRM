@@ -5,13 +5,39 @@ import QtCharts 2.2
 
 Item {
     id: item1
-    property alias button1: button1
     property alias chartView: chartView
+
+    Connections {
+        target: downloadManager
+        onPresentData: {
+            y = y/1000
+            series.append(x, y)
+            if (x > xAxis.max) {
+                xAxis.max = x
+            }
+            if (y > yAxis.max) {
+                yAxis.max = y
+            }
+        }
+    }
     Connections {
         target: downloadManager2
         onPresentData2: {
             y = y / 1
             series2.append(x, y)
+            if (x > xAxis.max) {
+                xAxis.max = x
+            }
+            if (y > yAxis.max) {
+                yAxis.max = y
+            }
+        }
+    }
+    Connections {
+        target: downloadManager3
+        onPresentData3: {
+            y = y / 1
+            series3.append(x, y)
             if (x > xAxis.max) {
                 xAxis.max = x
             }
@@ -32,7 +58,7 @@ Item {
             Text {
                 id: text1
                 color: "#20b1e9"
-                text: qsTr("Aventus-US Dollars ")
+                text: qsTr("Bitcoin - US Dollar")
                 style: Text.Raised
                 font.weight: Font.Medium
                 font.capitalization: Font.AllUppercase
@@ -42,15 +68,16 @@ Item {
                 font.pointSize: 15
             }
         }
+
         RowLayout {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10
             anchors.horizontalCenter: parent.horizontalCenter
             Button {
                 id: button1
-                text: qsTr("update")
-                Layout.fillHeight: false
-                Layout.fillWidth: false
+                x: 279
+                y: 397
+                text: qsTr("Update")
             }
         }
     }
@@ -65,16 +92,17 @@ Item {
         anchors.bottomMargin: 40
         ChartView {
             id: chartView
-            title: "Aventus-US dollar"
+            anchors.bottomMargin: 0
+            title: "Comparison Between Daily Digital Currencies"
             anchors.fill: parent
             ValueAxis {
                 id: yAxis
-                titleText: "US Dollars"
+                titleText: "USD"
                 titleVisible: true
                 gridVisible: true
                 tickCount: 11
                 min: 0
-                max: 2
+                max: 10
             }
             DateTimeAxis {
                 id: xAxis
@@ -84,16 +112,37 @@ Item {
                 gridVisible: true
                 format: "yyyy-MM-dd"
                 min: "2017-10-10"
-                max: "2017-12-01"
+                max: "2017-11-01"
+            }
+
+            LineSeries {
+                id: series
+                color: "red"
+                axisX: xAxis
+                axisY: yAxis
+                name: "first time series(BTC)-(/1000)"
+                visible: true
             }
             LineSeries {
                 id: series2
-                name: "second time series"
+                name: "second time series(AVENTUS)"
                 color: "green"
                 visible: true
                 axisX: xAxis
                 axisY: yAxis
             }
+            LineSeries {
+                id: series3
+                name: "third time series(GAME)"
+                color: "blue"
+                visible: true
+                axisX: xAxis
+                axisY: yAxis
+            }
+        }
+
+
         }
     }
-}
+
+

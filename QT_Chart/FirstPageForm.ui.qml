@@ -7,6 +7,19 @@ Item {
     id: item1
     property alias chartView: chartView
 
+    Connections {
+        target: downloadManager
+        onPresentData: {
+            y = y / 100
+            series.append(x, y)
+            if (x > xAxis.max) {
+                xAxis.max = x
+            }
+            if (y > yAxis.max) {
+                yAxis.max = y
+            }
+        }
+    }
 
     ColumnLayout {
         id: columnLayout
@@ -54,24 +67,36 @@ Item {
         ChartView {
             id: chartView
             anchors.bottomMargin: 0
-            title: "Turkish Liras (TL)-Daily"
+            title: "Bitcoin-USD-Daily"
             anchors.fill: parent
+            ValueAxis {
+                id: yAxis
+                titleText: "USD"
+                titleVisible: true
+                gridVisible: true
+                tickCount: 11
+                min: 0
+                max: 10
+            }
+            DateTimeAxis {
+                id: xAxis
+                tickCount: 20
+                visible: true
+                labelsAngle: 90
+                gridVisible: true
+                format: "yyyy-MM-dd"
+                min: "2017-10-10"
+                max: "2017-11-01"
+            }
 
             LineSeries {
                 id: series
-                name: " second time series"
+                color: "red"
+                axisX: xAxis
+                axisY: yAxis
+                name: "first time series"
                 visible: true
             }
-
-
         }
-
     }
-
-    Connections {
-        target: button1
-        onClicked: { item1.state = "LineSeries" }
-    }
-
-
 }
