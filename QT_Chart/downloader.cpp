@@ -14,22 +14,77 @@
 #include <QList>
 
 Downloader::Downloader(QObject *parent) :
-    QObject(parent)
-{
-}
-
-void Downloader::doDownload()
+    QObject(parent)/*,
+  m_StartDate(QDate::currentDate().addDays(-10).toString("yyyy-MM-dd")),
+              m_EndDate(QDate::currentDate().toString("yyyy-MM-dd")),
+              m_yAxisMin(0),
+              m_yAxisMax(1500)*/
 {
     manager = new QNetworkAccessManager(this);
 
     connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(replyFinished(QNetworkReply*)));
-
-    manager->get(QNetworkRequest(QUrl("https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=USD&apikey=3F5NE805II9REK18")));
 }
+//QString Downloader::startDate() const
+//{
+//  return m_StartDate;
+//}
+//void Downloader::setStartDate(const QString &date){
+//  this->m_StartDate = date;
+//}
+
+
+
+//QString Downloader::endDate() const {
+//  return m_EndDate;
+//}
+
+
+
+//void Downloader::setEndDate(const QString &date){
+//  this->m_EndDate = date;
+//}
+
+
+
+//double Downloader::yAxisMin() const {
+//  return m_yAxisMin;
+//}
+
+
+
+//void Downloader::setYAxisMin(double value){
+//  this->m_yAxisMin = value;
+//}
+
+
+
+//double Downloader::yAxisMax() const {
+//  return m_yAxisMax;
+//}
+
+
+
+//void Downloader::setYAxisMax(double value){
+//  this->m_yAxisMin = value;
+//}
+
+void Downloader::doDownload(const QString &CurrencyID)
+{ 
+    // Set & send the newtork request
+    QString requestUrl = "https://www.alphavantage.co/query?";
+    requestUrl += "function=DIGITAL_CURRENCY_DAILY";
+    requestUrl += "&symbol=" + CurrencyID;
+    requestUrl += "&market=USD";
+    requestUrl += "&apikey=3F5NE805II9REK18";
+  
+    manager->get(QNetworkRequest(QUrl(requestUrl)));
+  }
+
 
 void Downloader::replyFinished (QNetworkReply *reply)
 {
+     QString CurrencyID = (reply->url().toString()).replace("https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=" , "").replace("&market=USD&apikey=3F5NE805II9REK18","");
     if(reply->error())
     {
         qDebug() << "ERROR!";
@@ -41,7 +96,7 @@ void Downloader::replyFinished (QNetworkReply *reply)
 
         QByteArray webData = reply->readAll();
 
-        QFile *file = new QFile(QDir::currentPath() + "\\BTCDATA.txt");
+        QFile *file = new QFile(QDir::currentPath() + "\\" + CurrencyID + ".txt");
         if(file->open(QFile::Append))
         {
             file->write(webData);
@@ -51,6 +106,7 @@ void Downloader::replyFinished (QNetworkReply *reply)
         delete file;
         QList<QPair<QString,QString>> graphValuesBTC;
         QJsonDocument doc = QJsonDocument::fromJson(webData);
+
 
         if(doc.isArray()==true){
             QJsonArray rootArray = doc.array();
@@ -63,6 +119,7 @@ void Downloader::replyFinished (QNetworkReply *reply)
 
             QJsonObject timeSeries = rootObject["Time Series (Digital Currency Daily)"].toObject();
             QStringList keys = timeSeries.keys();
+            QString k = QDate::currentDate().addDays(-30).toString("yyyy-MM-dd");
 
             for (QString k :keys){
                 QJsonObject dayValues = timeSeries[k].toObject();
@@ -83,7 +140,8 @@ void Downloader::replyFinished (QNetworkReply *reply)
 
                 graphValuesBTC.append(dataItem3);
 
-                }
+
+                } std::sort(graphValuesBTC.begin(), graphValuesBTC.end());
     } for (int i=0; i<graphValuesBTC.size(); i++){
             QPair<QString,QString> data = graphValuesBTC[i];
             float list=data.second.toFloat();
@@ -91,149 +149,12 @@ void Downloader::replyFinished (QNetworkReply *reply)
             xAxisValue.toMSecsSinceEpoch();
             emit presentData(QVariant(xAxisValue),QVariant(list));
         }
+
+
+//        for (int i=0; i<graphValuesBTC.size(); i++) {
+//            graphValuesBTC.removeAt(i);
+//        }
 }
-}
-    void Downloader::doDownload1()
-    {
-        manager = new QNetworkAccessManager(this);
-
-        connect(manager, SIGNAL(finished(QNetworkReply*)),
-                this, SLOT(replyFinished1(QNetworkReply*)));
-
-        manager->get(QNetworkRequest(QUrl("https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=AVT&market=USD&apikey=3F5NE805II9REK18")));
-    }
-
-    void Downloader::replyFinished1 (QNetworkReply *reply1)
-    {
-        if(reply1->error())
-        {
-            qDebug() << "ERROR!";
-            qDebug() << reply1->errorString();
-        }
-        else
-        {
-
-            QByteArray webData1 = reply1->readAll();
-
-            QFile *file1 = new QFile(QDir::currentPath() + "\\AVENTUSDATA.txt");
-            if(file1->open(QFile::Append))
-            {
-                file1->write(webData1);
-                file1->flush();
-                file1->close();
-            }
-            delete file1;
-            QList<QPair<QString,QString>> graphValuesAVT;
-            QJsonDocument doc = QJsonDocument::fromJson(webData1);
-
-            if(doc.isArray()==true){
-                QJsonArray rootArray = doc.array();
-                //retrieve array
-            }
-
-            else if (doc.isObject() == true){
-
-                QJsonObject rootObject = doc.object();
-
-                QJsonObject timeSeries = rootObject["Time Series (Digital Currency Daily)"].toObject();
-                QStringList keys = timeSeries.keys();
-
-                for (QString k :keys){
-                    QJsonObject dayValues = timeSeries[k].toObject();
-                    QString aventusValue = dayValues["4a. close (USD)"].toString();
-
-
-
-
-                    QPair<QString,QString> dataItem2;
-                    dataItem2.first = k;
-                    dataItem2.second = aventusValue;
-
-
-
-
-
-
-                    graphValuesAVT.append(dataItem2);
-
-
-                    }
-        }for (int i=0; i<graphValuesAVT.size(); i++){
-                QPair<QString,QString> data = graphValuesAVT[i];
-                float list=data.second.toFloat();
-                QDateTime xAxisValue; xAxisValue.setDate(QDate::fromString(data.first,"yyyy-MM-dd"));
-                xAxisValue.toMSecsSinceEpoch();
-                emit presentData2(QVariant(xAxisValue),QVariant(list));
-            }
-    }
-    }
-    void Downloader::doDownload2()
-    {
-        manager = new QNetworkAccessManager(this);
-
-        connect(manager, SIGNAL(finished(QNetworkReply*)),
-                this, SLOT(replyFinished2(QNetworkReply*)));
-
-        manager->get(QNetworkRequest(QUrl("https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=GAME&market=USD&apikey=3F5NE805II9REK18")));
-    }
-
-    void Downloader::replyFinished2 (QNetworkReply *reply2)
-    {
-        if(reply2->error())
-        {
-            qDebug() << "ERROR!";
-            qDebug() << reply2->errorString();
-        }
-        else
-        {
-
-QByteArray webData2 = reply2->readAll();
-            QFile *file = new QFile(QDir::currentPath() + "\\GAMEDATA.txt");
-            if(file->open(QFile::Append))
-            {
-                file->write(webData2);
-                file->flush();
-                file->close();
-            }
-            delete file;
-            QList<QPair<QString,QString>> graphValuesGAME;
-            QJsonDocument doc = QJsonDocument::fromJson(webData2);
-
-            if(doc.isArray()==true){
-                QJsonArray rootArray = doc.array();
-                //retrieve array
-            }
-
-            else if (doc.isObject() == true){
-
-                QJsonObject rootObject = doc.object();
-
-                QJsonObject timeSeries = rootObject["Time Series (Digital Currency Daily)"].toObject();
-                QStringList keys = timeSeries.keys();
-
-                for (QString k :keys){
-                    QJsonObject dayValues = timeSeries[k].toObject();
-                    QString gameValue = dayValues["4a. close (USD)"].toString();
-
-
-                    QPair<QString,QString> dataItem;
-                    dataItem.first = k;
-                    dataItem.second = gameValue;
-
-
-
-
-
-                    graphValuesGAME.append(dataItem);
-
-                    }
-        }
-            for (int i=0; i<graphValuesGAME.size(); i++){
-                QPair<QString,QString> data = graphValuesGAME[i];
-                float list=data.second.toFloat();
-                QDateTime xAxisValue; xAxisValue.setDate(QDate::fromString(data.first,"yyyy-MM-dd"));
-                xAxisValue.toMSecsSinceEpoch();
-                emit presentData3(QVariant(xAxisValue),QVariant(list));
-            }
-    }
-    }
+ }
+    
+    

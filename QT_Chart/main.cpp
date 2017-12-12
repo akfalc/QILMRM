@@ -7,7 +7,7 @@
 #include <QQuickView>
 #include <downloader.h>
 #include <QNetworkAccessManager>
-
+#include <iostream>
 
 
 int main(int argc, char *argv[])
@@ -19,23 +19,14 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-
+    QQmlContext* context = engine.rootContext();
+    Downloader d;
+context->setContextProperty("downloadManager", &d);
 
     if (engine.rootObjects().isEmpty())
         return -1;
-    Downloader* manager = new Downloader();
-    manager->doDownload();
-    engine.rootContext()->setContextProperty("downloadManager",manager);
-    Downloader* manager2 = new Downloader();
-     manager2->doDownload1();
-      engine.rootContext()->setContextProperty("downloadManager2",manager2);
-     Downloader* manager3 = new Downloader();
-     manager3->doDownload2();
 
-
-
-
-engine.rootContext()->setContextProperty("downloadManager3",manager3);
+    
 
 
 

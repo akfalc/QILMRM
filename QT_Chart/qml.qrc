@@ -1,16 +1,5 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>MainForm.ui.qml</file>
-        <file>FirstPage.qml</file>
-        <file>SecondPage.qml</file>
-        <file>ThirdPage.qml</file>
-        <file>FirstPageForm.ui.qml</file>
-        <file>SecondPageForm.ui.qml</file>
-        <file>ThirdPageForm.ui.qml</file>
-        <file>MainPage.qml</file>
-        <file>MainPageForm.ui.qml</file>
-        <file>Comparasion_Page.qml</file>
-        <file>Comparasion_PageForm.ui.qml</file>
     </qresource>
 </RCC>
