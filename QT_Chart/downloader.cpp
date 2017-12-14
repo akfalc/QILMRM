@@ -14,60 +14,14 @@
 #include <QList>
 
 Downloader::Downloader(QObject *parent) :
-    QObject(parent)/*,
-  m_StartDate(QDate::currentDate().addDays(-10).toString("yyyy-MM-dd")),
-              m_EndDate(QDate::currentDate().toString("yyyy-MM-dd")),
-              m_yAxisMin(0),
-              m_yAxisMax(1500)*/
+    QObject(parent)
 {
     manager = new QNetworkAccessManager(this);
 
     connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(replyFinished(QNetworkReply*)));
 }
-//QString Downloader::startDate() const
-//{
-//  return m_StartDate;
-//}
-//void Downloader::setStartDate(const QString &date){
-//  this->m_StartDate = date;
-//}
 
-
-
-//QString Downloader::endDate() const {
-//  return m_EndDate;
-//}
-
-
-
-//void Downloader::setEndDate(const QString &date){
-//  this->m_EndDate = date;
-//}
-
-
-
-//double Downloader::yAxisMin() const {
-//  return m_yAxisMin;
-//}
-
-
-
-//void Downloader::setYAxisMin(double value){
-//  this->m_yAxisMin = value;
-//}
-
-
-
-//double Downloader::yAxisMax() const {
-//  return m_yAxisMax;
-//}
-
-
-
-//void Downloader::setYAxisMax(double value){
-//  this->m_yAxisMin = value;
-//}
 
 void Downloader::doDownload(const QString &CurrencyID)
 { 
@@ -151,9 +105,7 @@ void Downloader::replyFinished (QNetworkReply *reply)
         }
 
 
-//        for (int i=0; i<graphValuesBTC.size(); i++) {
-//            graphValuesBTC.removeAt(i);
-//        }
+
 }
  }
     

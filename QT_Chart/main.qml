@@ -25,7 +25,7 @@ ApplicationWindow {
         target: downloadManager
         onPresentData: {
 
-            series.append(x, y)
+           series.append(x, y)
             if (x > xAxis.max) {
 xAxis.max=x
             }
@@ -128,6 +128,7 @@ downloadManager.doDownload(comboBox_currencyID.currentText);
 
 
 
+
           }
         }
         Button
@@ -161,19 +162,19 @@ downloadManager.doDownload(comboBox_currencyID.currentText);
                 titleText: "USD"
                 titleVisible: true
                 gridVisible: true
-                tickCount: 11
+                tickCount: 20
                 min: 0
                 max: 10
             }
             DateTimeAxis {
                 id: xAxis
-                tickCount: 20
+                tickCount: 30
                 visible: true
                 labelsAngle: 90
                 gridVisible: true
                 format: "yyyy-MM-dd"
-                min: "2017-10-10"
-                max: "2017-12-12"
+                min: "2017-10-30"
+                max: "2017-12-09"
             }
 
             LineSeries {
